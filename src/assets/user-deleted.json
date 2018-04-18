@@ -1,4 +1,4 @@
 {
-    "status": true,
-    "message": "User deleted successfully"
+    "Result": true,
+    "Message": "User deleted successfully"
 }

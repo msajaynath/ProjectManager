@@ -1,0 +1,13 @@
+{
+    "status": {
+        "Result": true,
+        "Message": "Project added successfully"
+    },
+    "project":{
+        "Project_ID": 1,
+        "ProjectName": "proj1",
+        "Priority": 4,
+        "Manager_ID": 2,
+        "Manager_Name": "john doe"
+    }
+}

@@ -1,0 +1,16 @@
+[
+    {
+        "Project_ID": 1,
+        "ProjectName": "proj1",
+        "Priority": 4,
+        "Manager_ID": 2,
+        "Manager_Name": "john doe"
+    },
+    {
+        "Project_ID": 2,
+        "ProjectName": "proj2",
+        "Priority": 2,
+        "Manager_ID": 1,
+        "Manager_Name": "vijay varma"
+    }
+]

@@ -1,51 +1,94 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {INgxMyDpOptions} from 'ngx-mydatepicker';
+import { Project } from '../../entities/project';
+import { Users } from '../../entities/users';
+import { AddProjectService } from './add-project.service';
 
 @Component({
     templateUrl: './add-project.component.html',
-    styleUrls: ['./add-project.component.css']
+    styleUrls: ['./add-project.component.css'],
+    providers:[AddProjectService]
 })
 
-export class AddProjectComponent implements OnInit  {
-    pagename = 'add-project';
-    myOptions: INgxMyDpOptions = {
-        // other options...
-        dateFormat: 'dd/mm/yyyy',
-    };
+export class AddProjectComponent implements OnInit {
 
-    private myForm: FormGroup;
+    projectsList: Project[];
+    usersList: Users[];
 
-    constructor(private formBuilder: FormBuilder) { }
+    public addOrUpdateBtn: string = 'Add';
+
+
+    private addProjectForm: FormGroup;
+
+    constructor(private formBuilder: FormBuilder, private service: AddProjectService) {
+    }
 
     ngOnInit() {
-        this.myForm = this.formBuilder.group({
-            // Empty string or null means no initial value. Can be also specific date for
-            // example: {date: {year: 2018, month: 10, day: 9}} which sets this date to initial
-            // value.
 
-            myDate: [null, Validators.required]
-            // other controls are here...
+        this.addProjectForm = this.formBuilder.group({
+            projectNameControl: [null, Validators.required],
+            checkDatesControl: [null],
+            startDateControl: [null],
+            endDateControl: [null],
+            priorityControl: [null, Validators.required],
+            selectedManagerControl: [null, Validators.required],
+            selectedManagerName: [null, Validators.required],
+            priorityDisplayControl: [null]
+        });
+        this.getUsers();
+        this.getAllProject();
+
+    }
+
+    getUsers() {
+    this.usersList = [];
+        this.service.getUsers()
+            .subscribe(data => { this.usersList = data; });
+    }
+    getAllProject() {
+    this.projectsList = [];
+        this.service.getAllProject()
+            .subscribe(data => { this.projectsList = data; });
+    }
+
+
+    updateProject(project: Project) {
+        this.addProjectForm = this.formBuilder.group({
+            projectNameControl: [project.ProjectName, Validators.required],
+            checkDatesControl: [project.End_Date === null && project.Start_Date === null ? false : true],
+            startDateControl: [project.Start_Date],
+            endDateControl: [project.End_Date],
+            priorityControl: [project.Priority, Validators.required],
+            selectedManagerControl: [project.Manager_ID, Validators.required],
+            selectedManagerName: [project.Manager_Name, Validators.required],
+            priorityDisplayControl: [null]
+        });
+
+    }
+
+   
+
+    addProjectReset() {
+        this.addProjectForm.reset();
+        this.addOrUpdateBtn = 'Add';
+    }
+
+    addProjectSubmit() {
+
+     }
+    
+
+
+    assignManager(userId: number, mgrName: string) {
+
+        this.addProjectForm.patchValue({
+            selectedManagerControl: userId,
+            selectedManagerName: mgrName
         });
     }
 
-    setDate(): void {
-        // Set today date using the patchValue function
-        let date = new Date();
-        this.myForm.patchValue({myDate: {
-        date: {
-            year: date.getFullYear(),
-            month: date.getMonth() + 1,
-            day: date.getDate()}
-        }});
-    }
+    // suspendProject(projId) {
 
-    clearDate(): void {
-        // Clear the date using the patchValue function
-        this.myForm.patchValue({myDate: null});
-    }
-    
-    sliderChange(value) {
-        console.log(value);
-    }
+    // }
+
 }

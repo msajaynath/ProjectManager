@@ -13,9 +13,11 @@ import { AddTaskComponent } from './task/add-task/add-task.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {DataTableModule} from 'primeng/datatable';
 import {GrowlModule} from 'primeng/growl';
-import { Interceptor } from './interceptor/interceptor';
+import { Interceptor, fakeBackendProvider } from './interceptor/interceptor';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SliderModule} from 'primeng/slider';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -29,18 +31,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     AppRoutingModule,
     IonRangeSliderModule,
-    NgxMyDatePickerModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,DataTableModule,GrowlModule,ConfirmDialogModule
+    HttpClientModule,DataTableModule,GrowlModule,ConfirmDialogModule,SliderModule,CalendarModule
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: Interceptor,
-      multi: true
-  }
-  ],
+  providers:[  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true
+}]  ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

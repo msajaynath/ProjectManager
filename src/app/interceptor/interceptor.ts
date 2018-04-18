@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHandler, HttpInterceptor, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpHandler, HttpInterceptor, HttpRequest, HttpEvent, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
@@ -13,22 +13,33 @@ export class Interceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      
         // array in local storage for registered users
         // wrap in delayed observable to simulate server api call
         return Observable.of(null).mergeMap(() => {
-
+           
             if (request.url.endsWith('api/getAllUsers') && request.method === 'GET') {
-
                 request = request.clone({url: 'assets/user-data.json',method:"GET"});
+
+            
             }
             if (request.url.endsWith('api/updateUser') && request.method === 'POST') {
 
                 request = request.clone({url: 'assets/user-added.json',method:"GET"});
             }
-            if (request.url.endsWith('api/deleteUser') && request.method === 'POST') {
 
+            if (request.url.endsWith('api/DeleteUser ') && request.method === 'POST') {
                 request = request.clone({url: 'assets/user-deleted.json',method:"GET"});
             }
+
+            if (request.url.endsWith('api/getAllProjects') && request.method === 'GET') {
+                request = request.clone({url: 'assets/project-list.json',method:"GET"});
+            }
+            if (request.url.endsWith('api/updateProject') && request.method === 'POST') {
+
+                request = request.clone({url: 'assets/project-add.json',method:"GET"});
+            }
+            
             return next.handle(request);
 
         })
@@ -40,4 +51,11 @@ export class Interceptor implements HttpInterceptor {
     }
 
 }
+
+export let fakeBackendProvider = {
+    // use fake backend in place of Http service for backend-less development
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true
+};
 
