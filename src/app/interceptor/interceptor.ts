@@ -20,26 +20,37 @@ export class Interceptor implements HttpInterceptor {
            
             if (request.url.endsWith('api/getAllUsers') && request.method === 'GET') {
                 request = request.clone({url: 'assets/user-data.json',method:"GET"});
-
+          
             
             }
             if (request.url.endsWith('api/updateUser') && request.method === 'POST') {
 
                 request = request.clone({url: 'assets/user-added.json',method:"GET"});
             }
+            if (request.url.endsWith('api/DeleteUser') && request.method === 'POST') {
 
-            if (request.url.endsWith('api/DeleteUser ') && request.method === 'POST') {
                 request = request.clone({url: 'assets/user-deleted.json',method:"GET"});
             }
 
             if (request.url.endsWith('api/getAllProjects') && request.method === 'GET') {
+
                 request = request.clone({url: 'assets/project-list.json',method:"GET"});
             }
             if (request.url.endsWith('api/updateProject') && request.method === 'POST') {
 
-                request = request.clone({url: 'assets/project-add.json',method:"GET"});
+                request = request.clone({url: 'assets/project-added.json',method:"GET"});
             }
-            
+            if (request.url.endsWith('api/getAllTasks') && request.method === 'GET') {
+
+                request = request.clone({url: 'assets/task-list.json',method:"GET"});
+            }if (request.url.endsWith('api/getAllParentTasks') && request.method === 'GET') {
+
+                request = request.clone({url: 'assets/parent-task.json',method:"GET"});
+            }
+            if (request.url.endsWith('api/updateTask') && request.method === 'POST') {
+
+                request = request.clone({url: 'assets/task-updated.json',method:"GET"});
+            }
             return next.handle(request);
 
         })

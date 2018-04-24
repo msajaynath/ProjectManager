@@ -18,13 +18,16 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SliderModule} from 'primeng/slider';
 import {CalendarModule} from 'primeng/calendar';
+import { ViewTaskComponent } from './task/view-task/view-task.component';
+import { TaskService } from './utilities/common-service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddUserComponent,
     AddProjectComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    ViewTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -35,11 +38,13 @@ import {CalendarModule} from 'primeng/calendar';
     ReactiveFormsModule,
     HttpClientModule,DataTableModule,GrowlModule,ConfirmDialogModule,SliderModule,CalendarModule
   ],
-  providers:[  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: Interceptor,
-    multi: true
-}]  ,
+  providers:[ TaskService
+//     , {
+//     provide: HTTP_INTERCEPTORS,
+//     useClass: Interceptor,
+//     multi: true
+// }
+]  ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

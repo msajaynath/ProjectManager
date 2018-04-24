@@ -1,3 +1,4 @@
+<p-growl [(value)]="msgs" [life]="3000" [sticky]="false"></p-growl>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -38,7 +39,7 @@
                             <label class="control-label col-sm-4" for="startDate">Start Date:</label>
                             <div class="col-md-8">
                                 <div class="input-group">
-                                        <p-calendar  name="startDateControl" formControlName="startDateControl" [showIcon]="true"></p-calendar>
+                                        <p-calendar  name="startDateControl"   formControlName="startDateControl" [showIcon]="true"></p-calendar>
                                     
                                 </div>                   
                             </div>
@@ -50,12 +51,15 @@
                             <label class="control-label col-sm-4" for="endDate">End Date:</label>
                             <div class="col-md-8">                  
                                 <div class="input-group">
-                                        <p-calendar  name="endDateControl" formControlName="endDateControl" [showIcon]="true"></p-calendar>
+                                        <p-calendar  name="endDateControl"  formControlName="endDateControl"   [showIcon]="true"></p-calendar>
 
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                           
+                            
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3"></div>
@@ -74,7 +78,7 @@
                                         <h4 class="middleVert1">30</h4>
                                     </div>
                                     <div class="col-sm-3">
-                                        <input class="form-control" readonly formControlName="priorityDisplayControl" value="{{addProjectForm.controls.priorityControl.value}}">
+                                        <input class="form-control" readonly name="priorityDisplayControl" formControlName="priorityDisplayControl" value="{{addProjectForm.controls.priorityControl.value}}">
                                     </div>
                                 </div>
                             </div>
@@ -130,8 +134,17 @@
                         <p-dataTable [value]="projectsList">
                             <p-column field="Project_ID" header="Project ID" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
                             <p-column field="ProjectName" header="Project Name" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
-                            <p-column field="Start_Date" header="Start Date" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
-                            <p-column field="End_Date" header="End Date" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
+                            <p-column field="Start_Date" header="Start Date" sortable="true" [filter]="true" filterMatchMode="contains">
+
+                                <ng-template let-col let-project="rowData" let-ri="rowIndex" pTemplate="body">
+                                    <span>{{project[col.field]|date:'dd/MM/yyyy'}}</span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="End_Date" header="End Date" sortable="true" [filter]="true" filterMatchMode="contains">
+                                <ng-template let-col let-project="rowData" let-ri="rowIndex" pTemplate="body">
+                                    <span>{{project[col.field]|date:'dd/MM/yyyy'}}</span>
+                                </ng-template>
+                            </p-column>
                             <p-column field="Priority" header="Priority" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
                             <p-column field="Manager_Name" header="Manager Name" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>                            
                             <p-column>
@@ -184,3 +197,6 @@
             </div>
         </div>
     </div>
+
+    
+    <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" #cd ></p-confirmDialog>
